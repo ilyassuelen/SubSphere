@@ -1,7 +1,6 @@
 from models import db, User, Subscription
 
-
-class DataManager():
+class DataManager:
     def create_user(self, name, email, password_hash):
         new_user = User(name=name, email=email, password_hash=password_hash)
         db.session.add(new_user)
