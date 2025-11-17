@@ -74,6 +74,26 @@ def dashboard():
     return render_template("dashboard.html")
 
 
+@app.route('/subscriptions', methods=['GET', 'POST'])
+@login_required
+def subscriptions():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        price = float(request.form.get('price'))
+        billing_cycle = request.form.get('billing_cycle')
+        next_payment_date = request.form.get('next_payment_date')
+        category = request.form.get('category')
+
+        user_id = session['user_id']
+        data_manager.add_subscription(
+            name, price, billing_cycle, next_payment_date, category, user_id
+        )
+
+        return redirect(url_for('subscriptions'))
+
+    return render_template('subscriptions.html')
+
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
