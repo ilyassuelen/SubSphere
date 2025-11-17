@@ -71,7 +71,12 @@ def logout():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template("dashboard.html")
+    user_id = session['user_id']
+
+    monthly_total = data_manager.get_monthly_total(user_id)
+    sub_count = data_manager.count_subscriptions(user_id)
+
+    return render_template("dashboard.html", monthly_total=monthly_total, sub_count=sub_count)
 
 
 @app.route('/subscriptions', methods=['GET', 'POST'])

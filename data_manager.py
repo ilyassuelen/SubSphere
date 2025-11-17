@@ -27,3 +27,16 @@ class DataManager:
 
     def get_subscriptions_by_user(self, user_id):
         return Subscription.query.filter_by(user_id=user_id).all()
+
+    def get_monthly_total(self, user_id):
+        subs = self.get_subscriptions_by_user(user_id)
+        total = 0
+        for s in subs:
+            if s.billing_cycle == "Monthly":
+                total += s.price
+            elif s.billing_cycle == "Yearly":
+                total += s.price / 12
+        return round(total, 2)
+
+    def count_subscriptions(self, user_id):
+        return Subscription.query.filter_by(user_id=user_id).count()

@@ -4,12 +4,12 @@
 
 <div class="stats-grid">
     <div class="stat-card">
-        <p class="stat-value">$0</p>
+        <p class="stat-value">€{{ "%.2f"|format(monthly_total) }}</p>
         <p class="stat-label">Monthly Cost</p>
     </div>
 
     <div class="stat-card">
-        <p class="stat-value">0</p>
+        <p class="stat-value">{{ sub_count }}</p>
         <p class="stat-label">Active Subscriptions</p>
     </div>
 </div>
