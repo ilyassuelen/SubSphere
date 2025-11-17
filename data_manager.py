@@ -24,3 +24,6 @@ class DataManager:
         db.session.add(new_subscription)
         db.session.commit()
         return new_subscription
+
+    def get_subscriptions_by_user(self, user_id):
+        return Subscription.query.filter_by(user_id=user_id).all()

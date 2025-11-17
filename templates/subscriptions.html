@@ -10,9 +10,8 @@
         <p class="form-error">{{ error }}</p>
     {% endif %}
 
-    <form action="{{ url_for('add_subscription') }}" method="post">
+    <form action="{{ url_for('subscriptions') }}" method="post">
         <input type="text" name="name" placeholder="Subscription Name" required class="input-field">
-
         <input type="number" step="0.01" name="price" placeholder="Price (€)" required class="input-field">
 
         <select name="billing_cycle" required class="input-field">
@@ -36,5 +35,26 @@
         <button class="btn-primary btn-full">Add Subscription</button>
     </form>
 </div>
+
+
+<hr class="sep">
+
+<h3 class="section-title">Your Subscriptions</h3>
+
+{% if subs %}
+<ul class="sub-list">
+    {% for sub in subs %}
+        <li class="sub-item">
+            <strong>{{ sub.name }}</strong> – €{{ "%.2f"|format(sub.price) }}/{{ sub.billing_cycle }}
+            <span class="sub-meta">
+                Next: {{ sub.next_payment_date }}
+                | Category: {{ sub.category }}
+            </span>
+        </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No subscriptions added yet.</p>
+{% endif %}
 
 {% endblock %}

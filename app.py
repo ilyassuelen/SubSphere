@@ -88,10 +88,11 @@ def subscriptions():
         data_manager.add_subscription(
             name, price, billing_cycle, next_payment_date, category, user_id
         )
-
         return redirect(url_for('subscriptions'))
 
-    return render_template('subscriptions.html')
+    user_id = session['user_id']
+    subs = data_manager.get_subscriptions_by_user(user_id)
+    return render_template('subscriptions.html', subs=subs)
 
 
 if __name__ == "__main__":
