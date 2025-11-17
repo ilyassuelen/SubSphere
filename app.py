@@ -3,6 +3,7 @@ from data_manager import DataManager
 from models import db, User, Subscription
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
+from auth import login_required
 
 
 app = Flask(__name__)
@@ -68,10 +69,8 @@ def logout():
 
 
 @app.route('/dashboard')
+@login_required
 def dashboard():
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
-
     return render_template("dashboard.html")
 
 
