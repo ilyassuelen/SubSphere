@@ -1,0 +1,22 @@
+# Virtual Environment
+.venv/
+venv/
+ENV/
+
+# IDE folders
+.idea/
+.vscode/
+
+# Bytecode + Cache
+__pycache__/
+*.pyc
+
+# Local Databases
+/data/*.db
+*.sqlite3
+
+# Environment variables / Secrets
+.env
+
+# System files
+.DS_Store
