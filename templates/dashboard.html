@@ -2,40 +2,52 @@
 {% block content %}
 
 <h2 class="section-title white">Dashboard Overview</h2>
+<p class="section-subtitle">
+    A quick snapshot of your current subscription landscape.
+</p>
 
 <!-- Stats Cards -->
 <div class="stats-grid">
     <div class="stat-card">
+        <p class="stat-label">Estimated Monthly Spend</p>
         <p class="stat-value">€{{ total_monthly_cost }}</p>
-        <p class="stat-label">Monthly Cost</p>
+        <p class="stat-meta">Based on all active subscriptions</p>
     </div>
 
     <div class="stat-card">
+        <p class="stat-label">Total Active Subscriptions</p>
         <p class="stat-value">{{ sub_count }}</p>
-        <p class="stat-label">Active Subscriptions</p>
+        <p class="stat-meta">Recurring services currently tracked</p>
+    </div>
+
+    <div class="stat-card">
+        <p class="stat-label">Projected Annual Cost</p>
+        <p class="stat-value">€{{ annual_cost }}</p>
+        <p class="stat-meta">If all plans stay active for 12 months</p>
     </div>
 </div>
 
-
-<!-- Annual Cost -->
 <hr class="sep">
-<h3 class="section-title white">Cost Projection</h3>
-<p style="color:#cfa93e;font-size:20px;font-weight:600;">
-    Annual Cost: €{{ annual_cost }}
-</p>
 
 <!-- Next Payments -->
-<hr class="sep">
 <h3 class="section-title white">Next Payments</h3>
+<p class="section-subtitle">Upcoming charges sorted by date.</p>
 
 {% if subs %}
 <ul class="sub-list">
     {% for s in subs|sort(attribute='next_payment_date') %}
     <li class="sub-item">
-        <strong>{{ s.name }}</strong> — {{ s.next_payment_date }}
-        <span class="sub-meta">
-            €{{ "%.2f"|format(s.price) }} / {{ s.billing_cycle }}
-        </span>
+        <div class="sub-item-header">
+            <span class="sub-name">{{ s.name }}</span>
+            <span class="sub-price-pill">
+                €{{ "%.2f"|format(s.price) }} / {{ s.billing_cycle }}
+            </span>
+        </div>
+
+        <div class="sub-meta-row">
+            <span>Next Payment: {{ s.next_payment_date }}</span>
+            <span class="sub-category-pill">{{ s.category }}</span>
+        </div>
     </li>
     {% endfor %}
 </ul>
@@ -43,37 +55,43 @@
 <p>No upcoming payments yet.</p>
 {% endif %}
 
+<hr class="sep">
 
 <!-- Categories Breakdown -->
-<hr class="sep">
 <h3 class="section-title white">Categories Overview</h3>
+<p class="section-subtitle">Where your money goes most frequently.</p>
 
 {% if categories %}
 <ul class="sub-list">
     {% for cat, count in categories.items() %}
     <li class="sub-item">
-        {{ cat }}:
-        {% for i in range(count) %}
-            <span style="color:#cfa93e;">█</span>
-        {% endfor %}
-        <small>({{ count }})</small>
+        <div class="sub-item-header">
+            <span class="sub-name">{{ cat }}</span>
+            <span class="sub-category-pill">{{ count }} active</span>
+        </div>
+
+        <div class="sub-meta-row">
+            <span>
+                {% for i in range(count) %}
+                    <span style="color:#2563eb;">█</span>
+                {% endfor %}
+            </span>
+        </div>
     </li>
     {% endfor %}
 </ul>
 
 {% if top_category %}
-<p style="margin-top:12px;">
-    🔥 Most Subscribed Category:
-    <strong style="color:#cfa93e;">{{ top_category }}</strong>
+<p style="margin-top:12px; font-size:0.9rem;">
+    🔍 Most used category:
+    <strong style="color:#1d4ed8;">{{ top_category }}</strong>
 </p>
 {% endif %}
 
 {% else %}
-<p>No categories yet.</p>
+<p>No categories yet – add some subscriptions to see insights.</p>
 {% endif %}
 
-
-<!-- Call To Action -->
 <div style="text-align:center; margin-top: 40px;">
     <a href="{{ url_for('subscriptions') }}" class="btn-primary">
         Manage Subscriptions

@@ -9,22 +9,23 @@
 <body>
 
 <header class="navbar">
-    <div class="nav-left" onclick="window.location='{{ url_for('index') }}'">
-        <div class="logo-icon">◎</div>
-        <span class="logo-text">SubSphere</span>
-    </div>
+    <a href="{{ url_for('index') }}" class="nav-left">
+        <div class="logo-icon">SS</div>
+        <div>
+            <div class="logo-text">SubSphere</div>
+            <span class="logo-sub">SUBSCRIPTION CONTROL</span>
+        </div>
+    </a>
 
     <nav class="nav-right">
-        <div class="nav-right">
-            {% if 'user_id' in session %}
-                <a href="{{ url_for('dashboard') }}">Dashboard</a>
-                <a href="{{ url_for('subscriptions') }}">Subscriptions</a>
-                <a href="{{ url_for('logout') }}" class="text-danger">Logout</a>
-            {% else %}
-                <a href="{{ url_for('login') }}">Login</a>
-                <a href="{{ url_for('register') }}">Sign Up</a>
-            {% endif %}
-        </div>
+        {% if 'user_id' in session %}
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('subscriptions') }}">Subscriptions</a>
+            <a href="{{ url_for('logout') }}" class="text-danger">Logout</a>
+        {% else %}
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('register') }}" class="nav-cta">Sign Up</a>
+        {% endif %}
     </nav>
 </header>
 

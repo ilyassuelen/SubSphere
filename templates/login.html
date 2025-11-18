@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
+
 <div class="form-card">
-    <h2 class="form-title">Welcome Back</h2>
+    <h2 class="form-title">Welcome back</h2>
+    <p class="form-subtitle">Log in to see and manage your subscriptions.</p>
 
     {% if error %}
         <p class="form-error">{{ error }}</p>
@@ -13,4 +15,5 @@
         <button class="btn-primary btn-full">Login</button>
     </form>
 </div>
+
 {% endblock %}

@@ -1,7 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
+
 <div class="form-card">
-    <h2 class="form-title">Create Account</h2>
+    <h2 class="form-title">Create your SubSphere</h2>
+    <p class="form-subtitle">Sign up and start tracking your recurring costs in minutes.</p>
+
+    {% if error %}
+        <p class="form-error">{{ error }}</p>
+    {% endif %}
 
     <form action="{{ url_for('register') }}" method="post">
         <input type="text" name="name" placeholder="Name" required class="input-field">
@@ -10,4 +16,5 @@
         <button class="btn-primary btn-full">Sign Up</button>
     </form>
 </div>
+
 {% endblock %}

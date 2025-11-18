@@ -1,10 +1,32 @@
 {% extends "base.html" %}
 {% block content %}
+
 <section class="hero">
-    <h1 class="hero-title">Take Control of Your Subscriptions</h1>
+    <h1 class="hero-title">
+        Take control of your <span class="hero-highlight">subscriptions</span>.
+    </h1>
+
     <p class="hero-subtitle">
-        Stop wasting money. See everything. Pay only for what matters.
+        See every recurring payment in one clean dashboard.
+        No more hidden costs. No more forgotten trials.
     </p>
-    <a href="{{ url_for('register') }}" class="btn-primary hero-btn">Get Started</a>
+
+    <div class="hero-pill-row">
+        <span class="hero-pill">✔ Clear monthly overview</span>
+        <span class="hero-pill">✔ Upcoming payments at a glance</span>
+        <span class="hero-pill hero-metric">
+            Avg. user saves <strong>€360 / year</strong>
+        </span>
+    </div>
+
+    <div style="display:flex; justify-content:center; gap:0.8rem; flex-wrap:wrap;">
+        <a href="{{ url_for('register') }}" class="btn-primary hero-btn">
+            Get Started
+        </a>
+        <a href="{{ url_for('login') }}" class="btn-outline">
+            Already using SubSphere?
+        </a>
+    </div>
 </section>
+
 {% endblock %}

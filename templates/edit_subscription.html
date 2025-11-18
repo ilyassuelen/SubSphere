@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
+
 <h2 class="section-title white">Edit Subscription</h2>
+<p class="section-subtitle">
+    Adjust details for <strong>{{ sub.name }}</strong>.
+</p>
 
 <div class="form-card">
     <form method="post">
@@ -27,4 +31,5 @@
         <button class="btn-primary btn-full">Save Changes</button>
     </form>
 </div>
+
 {% endblock %}

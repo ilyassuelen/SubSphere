@@ -2,6 +2,9 @@
 {% block content %}
 
 <h2 class="section-title white">Manage Subscriptions</h2>
+<p class="section-subtitle">
+    Add, update or remove recurring services. All changes will reflect in your dashboard.
+</p>
 
 <div class="form-card">
     <h3 class="form-title">Add a Subscription</h3>
@@ -36,7 +39,6 @@
     </form>
 </div>
 
-
 <hr class="sep">
 
 <h3 class="section-title">Your Subscriptions</h3>
@@ -45,17 +47,27 @@
 <ul class="sub-list">
     {% for sub in subs %}
         <li class="sub-item">
-            <strong>{{ sub.name }}</strong> – €{{ "%.2f"|format(sub.price) }}/{{ sub.billing_cycle }}
-            <span class="sub-meta">
-                Next: {{ sub.next_payment_date }}
-                | Category: {{ sub.category }}
-            </span>
+            <div class="sub-item-header">
+                <span class="sub-name">{{ sub.name }}</span>
+                <span class="sub-price-pill">
+                    €{{ "%.2f"|format(sub.price) }} / {{ sub.billing_cycle }}
+                </span>
+            </div>
+
+            <div class="sub-meta-row">
+                <span>Next: {{ sub.next_payment_date }}</span>
+                <span class="sub-category-pill">{{ sub.category }}</span>
+            </div>
 
             <div class="sub-actions">
-                <a href="{{ url_for('edit_subscription', sub_id=sub.id) }}" class="btn-edit-small">✏ Edit</a>
+                <a href="{{ url_for('edit_subscription', sub_id=sub.id) }}" class="btn-edit-small">
+                    Edit
+                </a>
 
                 <form action="{{ url_for('delete_subscription', sub_id=sub.id) }}" method="post" style="display:inline;">
-                    <button class="btn-delete-small" onclick="return confirm('Delete this subscription?')">🗑</button>
+                    <button class="btn-delete-small" onclick="return confirm('Delete this subscription?')">
+                        Remove
+                    </button>
                 </form>
             </div>
         </li>
