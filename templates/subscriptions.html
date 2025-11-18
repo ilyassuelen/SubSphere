@@ -50,6 +50,14 @@
                 Next: {{ sub.next_payment_date }}
                 | Category: {{ sub.category }}
             </span>
+
+            <div class="sub-actions">
+                <a href="{{ url_for('edit_subscription', sub_id=sub.id) }}" class="btn-edit-small">✏ Edit</a>
+
+                <form action="{{ url_for('delete_subscription', sub_id=sub.id) }}" method="post" style="display:inline;">
+                    <button class="btn-delete-small" onclick="return confirm('Delete this subscription?')">🗑</button>
+                </form>
+            </div>
         </li>
     {% endfor %}
 </ul>

@@ -109,6 +109,33 @@ def subscriptions():
     return render_template('subscriptions.html', subs=subs)
 
 
+@app.route('/subscriptions/<int:sub_id>/delete', methods=['POST'])
+@login_required
+def delete_subscription(sub_id):
+    data_manager.delete_subscription(sub_id)
+    return redirect(url_for('subscriptions'))
+
+
+@app.route('/subscriptions/<int:sub_id>/edit', methods=['GET', 'POST'])
+@login_required
+def edit_subscription(sub_id):
+    sub = data_manager.get_subscription_by_id(sub_id)
+
+    if request.method == 'POST':
+        name = request.form.get('name')
+        price = float(request.form.get('price'))
+        billing_cycle = request.form.get('billing_cycle')
+        next_payment_date = request.form.get('next_payment_date')
+        category = request.form.get('category')
+
+        data_manager.update_subscription(
+            sub_id, name, price, billing_cycle, next_payment_date, category
+        )
+        return redirect(url_for('subscriptions'))
+
+    return render_template('edit_subscription.html', sub=sub)
+
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()

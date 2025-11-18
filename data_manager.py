@@ -40,3 +40,20 @@ class DataManager:
 
     def count_subscriptions(self, user_id):
         return Subscription.query.filter_by(user_id=user_id).count()
+
+    def delete_subscription(self, sub_id):
+        sub = Subscription.query.get(sub_id)
+        db.session.delete(sub)
+        db.session.commit()
+
+    def get_subscription_by_id(self, sub_id):
+        return Subscription.query.get(sub_id)
+
+    def update_subscription(self, sub_id, name, price, billing_cycle, next_payment_date, category):
+        sub = Subscription.query.get(sub_id)
+        sub.name = name
+        sub.price = price
+        sub.billing_cycle = billing_cycle
+        sub.next_payment_date = datetime.strptime(next_payment_date, "%Y-%m-%d")
+        sub.category = category
+        db.session.commit()
