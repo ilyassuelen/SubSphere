@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
+
 <h2 class="section-title white">Dashboard Overview</h2>
 
+<!-- Stats Cards -->
 <div class="stats-grid">
     <div class="stat-card">
         <p class="stat-value">€{{ total_monthly_cost }}</p>
@@ -14,29 +16,65 @@
     </div>
 </div>
 
-<hr class="sep">
 
-<h3 class="section-title">Current Subscriptions</h3>
+<!-- Annual Cost -->
+<hr class="sep">
+<h3 class="section-title white">Cost Projection</h3>
+<p style="color:#cfa93e;font-size:20px;font-weight:600;">
+    Annual Cost: €{{ annual_cost }}
+</p>
+
+<!-- Next Payments -->
+<hr class="sep">
+<h3 class="section-title white">Next Payments</h3>
 
 {% if subs %}
 <ul class="sub-list">
-    {% for sub in subs %}
-        <li class="sub-item">
-            <strong>{{ sub.name }}</strong>
-            – €{{ "%.2f"|format(sub.price) }}/{{ sub.billing_cycle }}
-            <br>
-            <span class="sub-meta">
-                Next Payment: {{ sub.next_payment_date }}
-                | Category: {{ sub.category }}
-            </span>
-        </li>
+    {% for s in subs|sort(attribute='next_payment_date') %}
+    <li class="sub-item">
+        <strong>{{ s.name }}</strong> — {{ s.next_payment_date }}
+        <span class="sub-meta">
+            €{{ "%.2f"|format(s.price) }} / {{ s.billing_cycle }}
+        </span>
+    </li>
     {% endfor %}
 </ul>
 {% else %}
-<p>No subscriptions yet. Add one below 👇</p>
+<p>No upcoming payments yet.</p>
 {% endif %}
 
-<div style="text-align:center; margin-top: 35px;">
+
+<!-- Categories Breakdown -->
+<hr class="sep">
+<h3 class="section-title white">Categories Overview</h3>
+
+{% if categories %}
+<ul class="sub-list">
+    {% for cat, count in categories.items() %}
+    <li class="sub-item">
+        {{ cat }}:
+        {% for i in range(count) %}
+            <span style="color:#cfa93e;">█</span>
+        {% endfor %}
+        <small>({{ count }})</small>
+    </li>
+    {% endfor %}
+</ul>
+
+{% if top_category %}
+<p style="margin-top:12px;">
+    🔥 Most Subscribed Category:
+    <strong style="color:#cfa93e;">{{ top_category }}</strong>
+</p>
+{% endif %}
+
+{% else %}
+<p>No categories yet.</p>
+{% endif %}
+
+
+<!-- Call To Action -->
+<div style="text-align:center; margin-top: 40px;">
     <a href="{{ url_for('subscriptions') }}" class="btn-primary">
         Manage Subscriptions
     </a>

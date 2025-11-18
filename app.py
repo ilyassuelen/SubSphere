@@ -75,17 +75,32 @@ def dashboard():
     subs = data_manager.get_subscriptions_by_user(user_id)
 
     total_monthly_cost = 0
+    annual_cost = 0
+    categories = {}
+
     for s in subs:
         if s.billing_cycle == "Monthly":
             total_monthly_cost += s.price
+            annual_cost += s.price * 12
         elif s.billing_cycle == "Yearly":
-            total_monthly_cost += s.price / 12  # Kosten auf Monat runterbrechen
+            total_monthly_cost += s.price / 12
+            annual_cost += s.price
+
+        categories[s.category] = categories.get(s.category, 0) + 1
+
+    # Top category
+    top_category = None
+    if categories:
+        top_category = max(categories, key=categories.get)
 
     return render_template(
         "dashboard.html",
-        subs=subs,
         total_monthly_cost=round(total_monthly_cost, 2),
-        sub_count=len(subs)
+        annual_cost=round(annual_cost, 2),
+        sub_count=len(subs),
+        subs=subs,
+        categories=categories,
+        top_category=top_category
     )
 
 
