@@ -83,6 +83,7 @@ def dashboard():
 
     return render_template(
         "dashboard.html",
+        subs=subs,
         total_monthly_cost=round(total_monthly_cost, 2),
         sub_count=len(subs)
     )

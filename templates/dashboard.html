@@ -14,6 +14,28 @@
     </div>
 </div>
 
+<hr class="sep">
+
+<h3 class="section-title">Current Subscriptions</h3>
+
+{% if subs %}
+<ul class="sub-list">
+    {% for sub in subs %}
+        <li class="sub-item">
+            <strong>{{ sub.name }}</strong>
+            – €{{ "%.2f"|format(sub.price) }}/{{ sub.billing_cycle }}
+            <br>
+            <span class="sub-meta">
+                Next Payment: {{ sub.next_payment_date }}
+                | Category: {{ sub.category }}
+            </span>
+        </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No subscriptions yet. Add one below 👇</p>
+{% endif %}
+
 <div style="text-align:center; margin-top: 35px;">
     <a href="{{ url_for('subscriptions') }}" class="btn-primary">
         Manage Subscriptions
