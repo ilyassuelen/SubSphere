@@ -72,11 +72,20 @@ def logout():
 @login_required
 def dashboard():
     user_id = session['user_id']
+    subs = data_manager.get_subscriptions_by_user(user_id)
 
-    monthly_total = data_manager.get_monthly_total(user_id)
-    sub_count = data_manager.count_subscriptions(user_id)
+    total_monthly_cost = 0
+    for s in subs:
+        if s.billing_cycle == "Monthly":
+            total_monthly_cost += s.price
+        elif s.billing_cycle == "Yearly":
+            total_monthly_cost += s.price / 12  # Kosten auf Monat runterbrechen
 
-    return render_template("dashboard.html", monthly_total=monthly_total, sub_count=sub_count)
+    return render_template(
+        "dashboard.html",
+        total_monthly_cost=round(total_monthly_cost, 2),
+        sub_count=len(subs)
+    )
 
 
 @app.route('/subscriptions', methods=['GET', 'POST'])
